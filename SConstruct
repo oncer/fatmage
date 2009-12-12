@@ -1,0 +1,8 @@
+env = Environment()
+env.ParseConfig('allegro-config --cflags --libs')
+env.Append(CFLAGS=['-std=c99','-Wall'])
+env.Append(CFLAGS=['-g'])
+#env.Append(CFLAGS=['-O2'])
+env.Append(LIBS=['alleg'])
+env.Program(target = 'fatmage', source = ['main.c','map.c','rules.c'])
+env.Program(target = 'mapmaker', source = ['mapedit.c','map.c'])
