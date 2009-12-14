@@ -16,13 +16,11 @@
 
 #include "defines.h"
 
-typedef int(int, void*) RULE_CALLBACK;
-
 typedef struct {
     short active; // 0=not
     short global; // 0=not; global rules get all possible events
     short x, y; // position on the map
-    RULE_CALLBACK callback;
+    int (*callback) (int, void*);
     const char* description;
 } Rule;
 

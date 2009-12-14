@@ -1,13 +1,16 @@
 #include "rules.h"
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>
+
+static int steplimit_rule(int what, void* param);
 
 Rule rules[] = {
     { 1, 1, 0, 0, steplimit_rule, "Keeps track of the mage's step count and makes him slower as he gets exhausted." },
 };
 
 // Vectors of active rules (0 means not) for each map
-const char* map_rules[] = {
+char* map_rules[] = {
     "0", // map 1
     "0", // map 2
     "0", // map 3
@@ -18,7 +21,7 @@ const char* map_rules[] = {
     "0", // map 8
     "0", // map 9
     "0", // map 0
-}
+};
 
 void rules_init(void)
 {
@@ -47,7 +50,7 @@ void rules_load(int map)
 void rules_save(int map)
 {
     assert(map >= 0 && map < 10);
-    const char* vec = map_rules[map];
+    char* vec = map_rules[map];
     for (int i=0; i<strlen(vec); ++i) {
         int state = rules[i].active + '0';
         vec[i] = state;
@@ -63,8 +66,8 @@ void rules_fire(int what, void* param)
         {
             rules[i].callback(what, param);
         } 
-        else if (rules[i].active && !roles[i].global 
-            && event == E_POSITION_CHANGE)
+        else if (rules[i].active && !rules[i].global 
+            && what == E_POSITION_CHANGE)
         {
             //TODO: check with mage position
         }
@@ -80,5 +83,6 @@ static int steplimit_rule(int what, void* param)
             break;
         default: assert(0);
     }
+    return 0;
 }
 

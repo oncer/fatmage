@@ -1,5 +1,6 @@
-#include "headers.h"
+#include "common.h"
 #include "map.h"
+#include "game.h"
 
 void init_map()
 {
